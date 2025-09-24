@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BULKGRO - African Agricultural Bulk Market</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0fff4;
+            scroll-behavior: smooth;
+        }
+        
+        .logo-font {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.4; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(37, 186, 37, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(34, 197, 34, 0.6); }
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse-slow 3s ease-in-out infinite;
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .animate-glow {
+            animation: glow 2s ease-in-out infinite;
+        }
+        
+        .gold {
+            color: #c7aa49;
+        }
+        
+        .border-gold {
+            border-color: #d7b957;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #18ab29;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1ba133;
+        }
+        
+        /* Page transitions */
+        .page {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .page.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        /* Form styling */
+        .form-input {
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Card hover effects */
+        .product-card {
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* African pattern background */
+        .african-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%230f4a23' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        
+        /* Gradient backgrounds */
+        .gradient-bg {
+            background: linear-gradient(135deg, #208506 0%, #0b9014 50%, #09901b 100%);
+        }
+        
+        .gradient-bg-light {
+            background: linear-gradient(135deg, #f0fff4 0%, #dcfce7 50%, #f0fff4 100%);
+        }
+        
+        /* Button animations */
+        .btn-glow {
+            box-shadow: 0 0 10px rgba(235, 190, 55, 0.5);
+        }
+        
+        .btn-glow:hover {
+            box-shadow: 0 0 20px rgba(233, 190, 62, 0.8);
+        }
+        
+        /* Progress bar animation */
+        .progress-bar {
+            transition: width 1s ease-in-out;
+        }
+        
+        /* Floating elements */
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translate(0,  0px); }
+            50%  { transform: translate(0, -15px); }
+            100%   { transform: translate(0, 0px); }    
+        }
+        
+        /* African-inspired colors */
+        .african-red { color: #e53e3e; }
+        .african-orange { color: #dd6b20; }
+        .african-yellow { color: #d69e2e; }
+        .african-green { color: #38a169; }
+        .african-blue { color: #3182ce; }
+        
+        /* Logo styling */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #d69e2e, #e53e3e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+        
+        /* Enhanced form styling */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .auth-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 450px;
+        }
+        
+        /* Feature cards */
+        .feature-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-left-color: #e2b966;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Stats counter */
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #0f4a23, #e4b963);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="gradient-bg-light african-pattern">
+    <!-- Navigation Header -->
+    <header id="header" class="gradient-bg text-white shadow-lg sticky top-0 z-40 hidden">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div id="logo" class="logo-container cursor-pointer">
+                    <div class="logo-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold logo-font">BULK<span class="text-yellow-400">GRO</span></h1>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-6">
+                    <a data-page="dashboard" class="nav-link cursor-pointer hover:text-yellow-300 transition-colors duration-300 flex items-center space-x-2">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a data-page="products" class="nav-link cursor-pointer hover:text-yellow-300 transition-colors duration-300 flex items-center space-x-2">
+                        <i class="fas fa-shopping-basket"></i>
+                        <span>Products</span>
+                    </a>
+                    <a data-page="groups" class="nav-link cursor-pointer hover:text-yellow-300 transition-colors duration-300 flex items-center space-x-2">
+                        <i class="fas fa-users"></i>
+                        <span>Market Groups</span>
+                    </a>
+                    <a data-page="group-purchase" class="nav-link cursor-pointer hover:text-yellow-300 transition-colors duration-300 flex items-center space-x-2">
+                        <i class="fas fa-handshake"></i>
+                        <span>Group Purchase</span>
+                    </a>
+                    <a data-page="feedback" class="nav-link cursor-pointer hover:text-yellow-300 transition-colors duration-300 flex items-center space-x-2">
+                        <i class="fas fa-comments"></i>
+                        <span>Feedback</span>
+                    </a>
+                </nav>
+
+                <!-- User Section -->
+                <div class="flex items-center space-x-4">
+                    <div id="user-info" class="hidden md:flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center text-green-900 font-bold shadow-md" id="user-avatar">
+                            U
+                        </div>
+                        <span class="text-green-200" id="username-display">Welcome, User!</span>
+                    </div>
+                    
+                    <button id="logout-btn" class="bg-yellow-400 text-green-900 px-4 py-2 rounded-lg font-bold hover:bg-yellow-500 transition-colors duration-300 shadow-md hidden md:block">
+                        Logout
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" class="md:hidden text-2xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="md:hidden mt-4 pb-4 border-t border-green-700 pt-4 hidden">
+                <div class="space-y-3">
+                    <a data-page="dashboard" class="nav-link-mobile block cursor-pointer hover:text-yellow-300 transition-colors duration-300 flex items-center space-x-3 p-2 rounded-lg">
+                        <i class="fas fa-tachometer-alt text-xl"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a data-page="products" class="nav-link-mobile block cursor-pointer hover:text-yellow-300 transition-colors duration-300 flex items-center space-x-3 p-2 rounded-lg">
+                        <i class="fas fa-shopping-basket text-xl"></i>
+                        <span>Products</span>
+                    </a>
+                    <a data-page="groups" class="nav-link-mobile block cursor-pointer hover:text-yellow-300 transition-colors duration-300 flex items-center space-x-3 p-2 rounded-lg">
+                        <i class="fas fa-users text-xl"></i>
+                        <span>Market Groups</span>
+                    </a>
+                    <a data-page="group-purchase" class="nav-link-mobile block cursor-pointer hover:text-yellow-300 transition-colors duration-300 flex items-center space-x-3 p-2 rounded-lg">
+                        <i class="fas fa-handshake text-xl"></i>
+                        <span>Group Purchase</span>
+                    </a>
+                    <a data-page="feedback" class="nav-link-mobile block cursor-pointer hover:text-yellow-300 transition-colors duration-300 flex items-center space-x-3 p-2 rounded-lg">
+                        <i class="fas fa-comments text-xl"></i>
+                        <span>Feedback</span>
+                    </a>
+                    
+                    <div id="user-info-mobile" class="flex items-center space-x-3 p-2 border-t border-green-700 pt-4">
+                        <div class="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center text-green-900 font-bold shadow-md" id="user-avatar-mobile">
+                            U
+                        </div>
+                        <span id="username-display-mobile">Welcome, User!</span>
+                    </div>
+                    
+                    <button id="logout-btn-mobile" class="w-full bg-yellow-400 text-green-900 px-4 py-2 rounded-lg font-bold hover:bg-yellow-500 transition-colors duration-300 shadow-md">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <section id="home" class="page active min-h-screen gradient-bg relative overflow-hidden">
+        <!-- Animated Background -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute -inset-10 opacity-20">
+                <div class="animate-pulse-slow w-full h-full bg-gradient-to-r from-green-400 to-yellow-200 rounded-full blur-3xl"></div>
+            </div>
+        </div>
+
+        <!-- Floating elements -->
+        <div class="floating absolute top-1/4 left-10 text-6xl opacity-20">🌱</div>
+        <div class="floating absolute top-1/3 right-20 text-5xl opacity-30" style="animation-delay: 1s;">🌽</div>
+        <div class="floating absolute bottom-1/4 left-1/4 text-4xl opacity-25" style="animation-delay: 2s;">🍅</div>
+        <div class="floating absolute top-1/2 right-1/3 text-6xl opacity-20" style="animation-delay: 3s;">🥦</div>
+
+        <main class="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center">
+            <!-- Enhanced Logo -->
+            <div class="logo-container mb-8">
+                <div class="logo-icon text-6xl">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <h1 class="text-6xl md:text-8xl font-bold text-white logo-font mb-2">
+                    BULK<span class="text-yellow-400">GRO</span>
+                </h1>
+            </div>
+            
+            <p class="text-xl md:text-2xl text-green-100 mb-8 max-w-2xl leading-relaxed">
+                Africa's Premier Agricultural Bulk Marketplace
+                <br />
+                <span class="text-yellow-300 font-semibold">Connecting Farmers, Suppliers & Buyers Across Nigeria</span>
+            </p>
+
+            <div class="space-y-4 md:space-y-0 md:space-x-6 md:flex mb-16">
+                <button id="get-started-btn" class="bg-gradient-to-r from-yellow-400 to-yellow-600 text-green-900 px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transform transition-all duration-300 shadow-2xl btn-glow">
+                    Get Started
+                </button>
+                
+                <button class="border-2 border-yellow-400 text-yellow-300 px-8 py-4 rounded-full font-bold text-lg hover:bg-yellow-400 hover:text-green-900 transition-all duration-300 shadow-lg">
+                    Learn More
+                </button>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 max-w-4xl">
+                <div class="bg-green-800/50 backdrop-blur-sm p-4 rounded-xl border border-green-600 text-center">
+                    <div class="stat-number">10K+</div>
+                    <p class="text-green-100">Farmers</p>
+                </div>
+                <div class="bg-green-800/50 backdrop-blur-sm p-4 rounded-xl border border-green-600 text-center">
+                    <div class="stat-number">5K+</div>
+                    <p class="text-green-100">Buyers</p>
+                </div>
+                <div class="bg-green-800/50 backdrop-blur-sm p-4 rounded-xl border border-green-600 text-center">
+                    <div class="stat-number">200+</div>
+                    <p class="text-green-100">Market Groups</p>
+                </div>
+                <div class="bg-green-800/50 backdrop-blur-sm p-4 rounded-xl border border-green-600 text-center">
+                    <div class="stat-number">36</div>
+                    <p class="text-green-100">States Covered</p>
+                </div>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 max-w-5xl">
+                <div class="feature-card bg-green-800/50 backdrop-blur-sm p-6 rounded-xl border border-green-600">
+                    <div class="text-4xl mb-2 floating african-yellow" style="animation-duration: 4s;">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="text-yellow-300 font-bold text-lg mb-2">B2B Marketplace</h3>
+                    <p class="text-green-100">Connect directly with agricultural businesses across Nigeria. Our platform facilitates secure transactions between farmers, suppliers, and bulk buyers.</p>
+                </div>
+                
+                <div class="feature-card bg-green-800/50 backdrop-blur-sm p-6 rounded-xl border border-green-600">
+                    <div class="text-4xl mb-2 floating african-green" style="animation-duration: 5s;">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3 class="text-yellow-300 font-bold text-lg mb-2">Nationwide Reach</h3>
+                    <p class="text-green-100">Access agricultural products from all 36 states of Nigeria. Our logistics network ensures timely delivery to any location in the country.</p>
+                </div>
+                
+                <div class="feature-card bg-green-800/50 backdrop-blur-sm p-6 rounded-xl border border-green-600">
+                    <div class="text-4xl mb-2 floating african-orange" style="animation-duration: 6s;">
+                        <i class="fas fa-boxes"></i>
+                    </div>
+                    <h3 class="text-yellow-300 font-bold text-lg mb-2">Bulk Purchases</h3>
+                    <p class="text-green-100">Leverage group buying power to get better prices. Join or create purchasing groups to buy in bulk and save significantly.</p>
+                </div>
+            </div>
+
+            <!-- How It Works Section -->
+            <div class="mt-16 max-w-4xl">
+                <h2 class="text-3xl font-bold text-yellow-300 mb-8">How BULKGRO Works</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-green-800/30 p-6 rounded-xl text-center">
+                        <div class="text-4xl mb-4 african-yellow">1</div>
+                        <h3 class="text-yellow-300 font-bold mb-2">Sign Up & Create Profile</h3>
+                        <p class="text-green-100">Register as a farmer, supplier, or buyer. Complete your profile to start connecting with others in the agricultural ecosystem.</p>
+                    </div>
+                    <div class="bg-green-800/30 p-6 rounded-xl text-center">
+                        <div class="text-4xl mb-4 african-green">2</div>
+                        <h3 class="text-yellow-300 font-bold mb-2">Browse & Connect</h3>
+                        <p class="text-green-100">Explore products, join market groups, or create your own. Use our advanced filters to find exactly what you need.</p>
+                    </div>
+                    <div class="bg-green-800/30 p-6 rounded-xl text-center">
+                        <div class="text-4xl mb-4 african-orange">3</div>
+                        <h3 class="text-yellow-300 font-bold mb-2">Transact & Grow</h3>
+                        <p class="text-green-100">Make secure transactions, track your orders, and grow your agricultural business with our support tools.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </section>
+
+    <!-- Login Page -->
+    <section id="login" class="page auth-container gradient-bg relative">
+        <!-- Floating elements -->
+        <div class="floating absolute top-1/4 left-10 text-6xl opacity-10">🍚</div>
+        <div class="floating absolute top-1/3 right-20 text-5xl opacity-15" style="animation-delay: 1s;">🫘</div>
+        <div class="floating absolute bottom-1/4 left-1/4 text-4xl opacity-10" style="animation-delay: 2s;">🍠</div>
+
+        <div class="auth-card">
+            <!-- Header -->
+            <div class="bg-green-900 p-6 text-center">
+                <div class="logo-container justify-center mb-2">
+                    <div class="logo-icon text-4xl">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold text-white logo-font">BULK<span class="text-yellow-400">GRO</span></h1>
+                </div>
+                <p class="text-green-200" id="login-title">Welcome Back to Africa's Agricultural Marketplace</p>
+            </div>
+
+            <!-- Form -->
+            <form id="auth-form" class="p-8 space-y-6">
+                <div id="username-field" class="hidden">
+                    <label class="block text-green-900 font-medium mb-2">
+                        <i class="fas fa-user mr-2"></i>Username
+                    </label>
+                    <input
+                        type="text"
+                        id="username"
+                        class="w-full px-4 py-3 bg-green-50 border border-green-300 rounded-lg text-green-900 focus:outline-none focus:border-yellow-400 form-input"
+                        placeholder="Enter your username"
+                    />
+                </div>
+
+                <div>
+                    <label class="block text-green-900 font-medium mb-2">
+                        <i class="fas fa-envelope mr-2"></i>Email Address
+                    </label>
+                    <input
+                        type="email"
+                        id="email"
+                        class="w-full px-4 py-3 bg-green-50 border border-green-300 rounded-lg text-green-900 focus:outline-none focus:border-yellow-400 form-input"
+                        placeholder="Enter your email"
+                        required
+                    />
+                </div>
+
+                <div>
+                    <label class="block text-green-900 font-medium mb-2">
+                        <i class="fas fa-lock mr-2"></i>Password
+                    </label>
+                    <input
+                        type="password"
+                        id="password"
+                        class="w-full px-4 py-3 bg-green-50 border border-green-300 rounded-lg text-green-900 focus:outline-none focus:border-yellow-400 form-input"
+                        placeholder="Enter your password"
+                        required
+                    />
+                </div>
+
+                <div id="confirm-password-field" class="hidden">
+                    <label class="block text-green-900 font-medium mb-2">
+                        <i class="fas fa-lock mr-2"></i>Confirm Password
+                    </label>
+                    <input
+                        type="password"
+                        id="confirm-password"
+                        class="w-full px-4 py-3 bg-green-50 border border-green-300 rounded-lg text-green-900 focus:outline-none focus:border-yellow-400 form-input"
+                        placeholder="Confirm your password"
+                    />
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input
+                            type="checkbox"
+                            id="remember-me"
+                            class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                        />
+                        <label for="remember-me" class="ml-2 block text-sm text-gray-600">
+                            Remember me
+                        </label>
+                    </div>
+                    <a href="#" class="text-sm text-green-600 hover:text-green-800">
+                        Forgot password?
+                    </a>
+                </div>
+
+                <button
+                    type="submit"
+                    id="auth-submit"
+                    class="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-green-900 py-3 rounded-lg font-bold hover:scale-105 transform transition-all duration-300 shadow-lg btn-glow"
+                >
+                    Sign In
+                </button>
+
+                <div class="text-center">
+                    <button
+                        type="button"
+                        id="toggle-auth"
+                        class="text-green-600 hover:text-green-800 transition-colors duration-200"
+                    >
+                        Don't have an account? Sign Up
+                    </button>
+                </div>
+
+                <div class="relative my-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-gray-500">Or continue with</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <button type="button" class="bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors duration-300 flex items-center justify-center">
+                        <i class="fab fa-facebook-f mr-2"></i> Facebook
+                    </button>
+                    <button type="button" class="bg-red-600 text-white py-2 rounded-lg font-medium hover:bg-red-700 transition-colors duration-300 flex items-center justify-center">
+                        <i class="fab fa-google mr-2"></i> Google
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Dashboard Page -->
+    <section id="dashboard" class="page min-h-screen gradient-bg-light">
+        <div class="container mx-auto p-6">
+            <h2 class="text-3xl font-bold text-green-900 mb-2">Dashboard</h2>
+            <p class="text-gray-600 mb-6">Welcome back! Here's an overview of your agricultural marketplace activities.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- Quick Stats -->
+                <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-yellow-400 hover:scale-105 transition-transform duration-300">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-green-900">Available Products</h3>
+                            <p class="text-3xl font-bold text-green-700">1,247</p>
+                        </div>
+                        <div class="text-4xl text-yellow-400">
+                            <i class="fas fa-shopping-basket"></i>
+                        </div>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                        <div class="bg-green-600 h-2 rounded-full progress-bar" style="width: 70%"></div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-1">+12% from last month</p>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500 hover:scale-105 transition-transform duration-300">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-green-900">Active Groups</h3>
+                            <p class="text-3xl font-bold text-green-700">89</p>
+                        </div>
+                        <div class="text-4xl text-green-500">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                        <div class="bg-green-600 h-2 rounded-full progress-bar" style="width: 60%"></div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-1">+5 new groups this week</p>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-red-400 hover:scale-105 transition-transform duration-300">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-green-900">Your Orders</h3>
+                            <p class="text-3xl font-bold text-green-700">12</p>
+                        </div>
+                        <div class="text-4xl text-red-400">
+                            <i class="fas fa-shipping-fast"></i>
+                        </div>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                        <div class="bg-green-600 h-2 rounded-full progress-bar" style="width: 80%"></div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-1">3 orders pending delivery</p>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="mb-8">
+                <h3 class="text-xl font-bold text-green-900 mb-4">Quick Actions</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <button class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col items-center">
+                        <i class="fas fa-plus-circle text-2xl text-green-600 mb-2"></i>
+                        <span class="text-sm font-medium">Add Product</span>
+                    </button>
+                    <button class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col items-center">
+                        <i class="fas fa-search text-2xl text-blue-600 mb-2"></i>
+                        <span class="text-sm font-medium">Find Suppliers</span>
+                    </button>
+                    <button class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col items-center">
+                        <i class="fas fa-chart-line text-2xl text-purple-600 mb-2"></i>
+                        <span class="text-sm font-medium">Market Trends</span>
+                    </button>
+                    <button class="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col items-center">
+                        <i class="fas fa-question-circle text-2xl text-orange-600 mb-2"></i>
+                        <span class="text-sm font-medium">Get Help</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation Cards -->
+            <h3 class="text-xl font-bold text-green-900 mb-4">Explore Marketplace</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div data-page="products" class="page-link bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl p-6 shadow-lg cursor-pointer hover:scale-105 transform transition-all duration-300 floating" style="animation-duration: 4s;">
+                    <div class="text-4xl mb-4"><i class="fas fa-shopping-basket"></i></div>
+                    <h3 class="text-xl font-bold mb-2">Browse Products</h3>
+                    <p class="opacity-90">Discover agricultural products from across Nigeria</p>
+                </div>
+                
+                <div data-page="groups" class="page-link bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl p-6 shadow-lg cursor-pointer hover:scale-105 transform transition-all duration-300 floating" style="animation-duration: 5s;">
+                    <div class="text-4xl mb-4"><i class="fas fa-users"></i></div>
+                    <h3 class="text-xl font-bold mb-2">Market Groups</h3>
+                    <p class="opacity-90">Join local agricultural communities and cooperatives</p>
+                </div>
+                
+                <div data-page="group-purchase" class="page-link bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-xl p-6 shadow-lg cursor-pointer hover:scale-105 transform transition-all duration-300 floating" style="animation-duration: 6s;">
+                    <div class="text-4xl mb-4"><i class="fas fa-handshake"></i></div>
+                    <h3 class="text-xl font-bold mb-2">Group Purchase</h3>
+                    <p class="opacity-90">Collaborate with others to get better bulk prices</p>
+                </div>
+                
+                <div data-page="feedback" class="page-link bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl p-6 shadow-lg cursor-pointer hover:scale-105 transform transition-all duration-300 floating" style="animation-duration: 7s;">
+                    <div class="text-4xl mb-4"><i class="fas fa-comments"></i></div>
+                    <h3 class="text-xl font-bold mb-2">Feedback</h3>
+                    <p class="opacity-90">Share your experience and help us improve</p>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="mt-8 bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-xl font-bold text-green-900 mb-4">Recent Activity</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 mr-3">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">Order #12345 confirmed</p>
+                                <p class="text-sm text-gray-500">Premium Rice - 50 bags</p>
+                            </div>
+                        </div>
+                        <span class="text-sm text-gray-500">2 hours ago</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mr-3">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">Joined "Lagos Farmers Cooperative"</p>
+                                <p class="text-sm text-gray-500">Market group membership</p>
+                            </div>
+                        </div>
+                        <span class="text-sm text-gray-500">1 day ago</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600 mr-3">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">Profile completed</p>
+                                <p class="text-sm text-gray-500">Business verification pending</p>
+                            </div>
+                        </div>
+                        <span class="text-sm text-gray-500">3 days ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Page -->
+    <section id="products" class="page min-h-screen gradient-bg-light">
+        <div class="container mx-auto p-6">
+            <h2 class="text-3xl font-bold text-green-900 mb-2">Agricultural Products</h2>
+            <p class="text-gray-600 mb-6">Discover a wide range of fresh agricultural products from farmers across Nigeria</p>
+            
+            <!-- Category Filter -->
+            <div class="mb-8 bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-bold text-green-900 mb-4">Filter by Category</h3>
+                <div class="flex flex-wrap gap-2">
+                    <button data-category="all" class="category-btn px-4 py-2 rounded-full font-medium transition-all duration-300 bg-green-600 text-white shadow-lg">
+                        All Products
+                    </button>
+                    <button data-category="grains" class="category-btn px-4 py-2 rounded-full font-medium transition-all duration-300 bg-white text-green-700 border border-green-300 hover:bg-green-50">
+                        <i class="fas fa-wheat mr-2"></i>Grains
+                    </button>
+                    <button data-category="vegetables" class="category-btn px-4 py-2 rounded-full font-medium transition-all duration-300 bg-white text-green-700 border border-green-300 hover:bg-green-50">
+                        <i class="fas fa-carrot mr-2"></i>Vegetables
+                    </button>
+                    <button data-category="fruits" class="category-btn px-4 py-2 rounded-full font-medium transition-all duration-300 bg-white text-green-700 border border-green-300 hover:bg-green-50">
+                        <i class="fas fa-apple-alt mr-2"></i>Fruits
+                    </button>
+                    <button data-category="oils" class="category-btn px-4 py-2 rounded-full font-medium transition-all duration-300 bg-white text-green-700 border border-green-300 hover:bg-green-50">
+                        <i class="fas fa-oil-can mr-2"></i>Oils
+                    </button>
+                    <button data-category="tubers" class="category-btn px-4 py-2 rounded-full font-medium transition-all duration-300 bg-white text-green-700 border border-green-300 hover:bg-green-50">
+                        <i class="fas fa-seedling mr-2"></i>Tubers
+                    </button>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="products-grid">
+                <!-- Products will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Groups Page -->
+    <section id="groups" class="page min-h-screen gradient-bg-light">
+        <div class="container mx-auto p-6">
+            <h2 class="text-3xl font-bold text-green-900 mb-2">Market Groups</h2>
+            <p class="text-gray-600 mb-6">Join agricultural communities and cooperatives to strengthen your business network</p>
+            
+            <!-- Search and Filter -->
+            <div class="mb-8 bg-white rounded-xl shadow-lg p-6">
+                <div class="flex flex-col md:flex-row gap-4 mb-6">
+                    <input
+                        type="text"
+                        id="group-search"
+                        placeholder="Search groups by name, location, or specialty..."
+                        class="flex-1 px-4 py-3 bg-green-50 border border-green-300 rounded-lg focus:outline-none focus:border-green-500 form-input"
+                    />
+                    <button class="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors duration-300 shadow-md flex items-center">
+                        <i class="fas fa-search mr-2"></i> Search
+                    </button>
+                </div>
+
+                <!-- State Filter -->
+                <div>
+                    <h3 class="font-semibold text-green-900 mb-3">Filter by State:</h3>
+                    <div class="flex flex-wrap gap-2" id="state-filters">
+                        <!-- State filters will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Groups Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="groups-grid">
+                <!-- Groups will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Group Purchase Page -->
+    <section id="group-purchase" class="page min-h-screen gradient-bg-light">
+        <div class="container mx-auto p-6">
+            <h2 class="text-3xl font-bold text-green-900 mb-2">Group Purchase Opportunities</h2>
+            <p class="text-gray-600 mb-6">Join forces with other buyers to get wholesale prices through collective purchasing power</p>
+            
+            <!-- Tabs -->
+            <div class="flex border-b border-gray-200 mb-6">
+                <button data-tab="active" class="tab-btn px-4 py-2 font-medium border-b-2 transition-colors duration-300 border-green-600 text-green-600">
+                    <i class="fas fa-bolt mr-2"></i>Active Purchases
+                </button>
+                <button data-tab="completed" class="tab-btn px-4 py-2 font-medium border-b-2 transition-colors duration-300 border-transparent text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-check-circle mr-2"></i>Completed
+                </button>
+            </div>
+
+            <!-- Purchases Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="purchases-grid">
+                <!-- Purchases will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Feedback Page -->
+    <section id="feedback" class="page min-h-screen gradient-bg-light">
+        <div class="container mx-auto p-6 max-w-4xl">
+            <h2 class="text-3xl font-bold text-green-900 mb-2">Feedback & Support</h2>
+            <p class="text-gray-600 mb-6">We value your input. Share your experience to help us improve our agricultural marketplace</p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Feedback Form -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <form id="feedback-form" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-green-900 font-medium mb-2">Name *</label>
+                                    <input
+                                        type="text"
+                                        id="feedback-name"
+                                        class="w-full px-4 py-3 bg-green-50 border border-green-300 rounded-lg focus:outline-none focus:border-green-500 form-input"
+                                        required
+                                    />
+                                </div>
+
+                                <div>
+                                    <label class="block text-green-900 font-medium mb-2">Email *</label>
+                                    <input
+                                        type="email"
+                                        id="feedback-email"
+                                        class="w-full px-4 py-3 bg-green-50 border border-green-300 rounded-lg focus:outline-none focus:border-green-500 form-input"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-green-900 font-medium mb-2">Category</label>
+                                <select
+                                    id="feedback-category"
+                                    class="w-full px-4 py-3 bg-green-50 border border-green-300 rounded-lg focus:outline-none focus:border-green-500"
+                                >
+                                    <option value="general">General Feedback</option>
+                                    <option value="technical">Technical Issue</option>
+                                    <option value="suggestion">Feature Suggestion</option>
+                                    <option value="complaint">Complaint</option>
+                                    <option value="partnership">Partnership Inquiry</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-green-900 font-medium mb-2">
+                                    Rating: <span id="rating-value">5</span> ⭐
+                                </label>
+                                <input
+                                    type="range"
+                                    id="feedback-rating"
+                                    min="1"
+                                    max="5"
+                                    value="5"
+                                    class="w-full h-2 bg-green-200 rounded-lg appearance-none cursor-pointer"
+                                />
+                                <div class="flex justify-between text-sm text-gray-600 mt-1">
+                                    <span>1 (Poor)</span>
+                                    <span>5 (Excellent)</span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-green-900 font-medium mb-2">Message *</label>
+                                <textarea
+                                    id="feedback-message"
+                                    rows="5"
+                                    class="w-full px-4 py-3 bg-green-50 border border-green-300 rounded-lg focus:outline-none focus:border-green-500 form-input"
+                                    placeholder="Tell us about your experience or suggestions..."
+                                    required
+                                ></textarea>
+                            </div>
+
+                            <div class="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    id="contact-permission"
+                                    class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                                />
+                                <label class="ml-2 text-sm text-gray-600">
+                                    I agree to be contacted for follow-up on this feedback
+                                </label>
+                            </div>
+
+                            <button
+                                type="submit"
+                                class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition-colors duration-300 shadow-md"
+                            >
+                                <i class="fas fa-paper-plane mr-2"></i> Submit Feedback
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="space-y-6">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-lg font-bold text-green-900 mb-4">Contact Information</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600 mr-3">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium">Email</p>
+                                    <p class="text-green-600">support@bulkgro.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mr-3">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium">Phone</p>
+                                    <p class="text-green-600">+234 800 123 4567</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 mr-3">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium">Address</p>
+                                    <p class="text-green-600">123 Agricultural Plaza, Abuja, Nigeria</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-yellow-800 mb-2">
+                            <i class="fas fa-lightbulb mr-2"></i>Tips for Good Feedback
+                        </h3>
+                        <ul class="text-yellow-700 text-sm space-y-1">
+                            <li>• Be specific about your experience</li>
+                            <li>• Include relevant order numbers</li>
+                            <li>• Suggest improvements clearly</li>
+                            <li>• Report bugs with steps to reproduce</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-green-800 mb-2">
+                            <i class="fas fa-clock mr-2"></i>Response Time
+                        </h3>
+                        <p class="text-green-700 text-sm">We typically respond to all feedback within 24-48 hours during business days.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full text-center shadow-2xl">
+            <div class="text-6xl text-green-500 mb-4 floating">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3 class="text-xl font-bold text-green-900 mb-2">Success!</h3>
+            <p id="success-message" class="mb-4">Your action was completed successfully.</p>
+            <button id="close-modal" class="bg-green-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors duration-300 shadow-md">
+                Continue
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Data for the application
+        const products = [
+            { id: 1, name: 'Premium Ofada Rice', price: '₦25,000/bag', location: 'Kano', image: '🍚', category: 'grains', description: 'High-quality locally grown Ofada rice, perfect for traditional Nigerian dishes.' },
+            { id: 2, name: 'Fresh Tomatoes', price: '₦15,000/crate', location: 'Lagos', image: '🍅', category: 'vegetables', description: 'Freshly harvested tomatoes from Ogun state farms, ideal for cooking and processing.' },
+            { id: 3, name: 'Brown Beans', price: '₦22,000/bag', location: 'Kaduna', image: '🫘', category: 'grains', description: 'Nutritious brown beans, rich in protein and essential nutrients.' },
+            { id: 4, name: 'Ripe Plantains', price: '₦8,000/bunch', location: 'Ogun', image: '🍌', category: 'fruits', description: 'Sweet ripe plantains perfect for frying, boiling, or making plantain chips.' },
+            { id: 5, name: 'Pure Palm Oil', price: '₦18,000/jerrican', location: 'Delta', image: '🛢️', category: 'oils', description: '100% pure palm oil extracted using traditional methods for authentic flavor.' },
+            { id: 6, name: 'Yam Tubers', price: '₦12,000/100 pieces', location: 'Benue', image: '🍠', category: 'tubers', description: 'Fresh yam tubers from the yam belt of Nigeria, suitable for various dishes.' },
+            { id: 7, name: 'Yellow Maize', price: '₦20,000/bag', location: 'Kano', image: '🌽', category: 'grains', description: 'High-quality yellow maize ideal for animal feed and human consumption.' },
+            { id: 8, name: 'Fresh Onions', price: '₦10,000/bag', location: 'Kaduna', image: '🧅', category: 'vegetables', description: 'Fresh onions with strong flavor, perfect for cooking and seasoning.' }
+        ];
+
+        const marketGroups = [
+            { 
+                id: 1, 
+                name: 'Lagos Farmers Cooperative', 
+                location: 'Lagos', 
+                members: 245, 
+                products: 12, 
+                image: '🏙️',
+                description: 'Leading agricultural cooperative in Lagos state specializing in vegetable farming',
+                established: '2018',
+                specialty: 'Vegetables'
+            },
+            { 
+                id: 2, 
+                name: 'Kano Grain Merchants Association', 
+                location: 'Kano', 
+                members: 189, 
+                products: 8, 
+                image: '🌾',
+                description: 'Specialized in grain production, storage, and distribution across Northern Nigeria',
+                established: '2015',
+                specialty: 'Grains'
+            },
+            { 
+                id: 3, 
+                name: 'Port Harcourt Fishermen Union', 
+                location: 'Rivers', 
+                members: 156, 
+                products: 5, 
+                image: '🎣',
+                description: 'Marine and freshwater fishing community with expertise in seafood processing',
+                established: '2020',
+                specialty: 'Seafood'
+            },
+            { 
+                id: 4, 
+                name: 'Abuja Vegetable Growers Association', 
+                location: 'Abuja', 
+                members: 98, 
+                products: 15, 
+                image: '🥦',
+                description: 'Urban farming and vegetable cultivation specialists serving the capital region',
+                established: '2019',
+                specialty: 'Vegetables'
+            },
+            { 
+                id: 5, 
+                name: 'Ibadan Poultry Farmers Cooperative', 
+                location: 'Oyo', 
+                members: 267, 
+                products: 10, 
+                image: '🐔',
+                description: 'Poultry and egg production specialists with modern farming techniques',
+                established: '2017',
+                specialty: 'Poultry'
+            },
+            { 
+                id: 6, 
+                name: 'Enugu Root Crops Collective', 
+                location: 'Enugu', 
+                members: 134, 
+                products: 7, 
+                image: '🍠',
+                description: 'Root crops and tuber farming collective with expertise in yam and cassava',
+                established: '2016',
+                specialty: 'Tubers'
+            }
+        ];
+
+        const groupPurchases = [
+            { 
+                id: 1, 
+                product: 'Premium Ofada Rice', 
+                image: '🍚', 
+                originalPrice: '₦28,000', 
+                groupPrice: '₦25,000', 
+                savings: '₦3,000', 
+                membersNeeded: 10,
+                currentMembers: 7,
+                deadline: '2023-12-31',
+                location: 'Nationwide',
+                organizer: 'Lagos Farmers Coop',
+                progress: 70,
+                description: 'Bulk purchase of high-quality Ofada rice directly from Kano farmers'
+            },
+            { 
+                id: 2, 
+                product: 'Organic Fertilizer', 
+                image: '🧪', 
+                originalPrice: '₦15,000', 
+                groupPrice: '₦12,000', 
+                savings: '₦3,000', 
+                membersNeeded: 20,
+                currentMembers: 15,
+                deadline: '2023-12-25',
+                location: 'South West',
+                organizer: 'Agro Solutions Ltd',
+                progress: 75,
+                description: 'Organic fertilizer suitable for various crops, improves soil fertility'
+            },
+            { 
+                id: 3, 
+                product: 'Seedlings Pack', 
+                image: '🌱', 
+                originalPrice: '₦8,000', 
+                groupPrice: '₦6,500', 
+                savings: '₦1,500', 
+                membersNeeded: 15,
+                currentMembers: 10,
+                deadline: '2023-12-28',
+                location: 'North Central',
+                organizer: 'Green Thumb Farmers',
+                progress: 67,
+                description: 'Assorted vegetable seedlings for the upcoming planting season'
+            },
+            { 
+                id: 4, 
+                product: 'Poultry Feed', 
+                image: '🐓', 
+                originalPrice: '₦12,000', 
+                groupPrice: '₦9,800', 
+                savings: '₦2,200', 
+                membersNeeded: 25,
+                currentMembers: 18,
+                deadline: '2023-12-20',
+                location: 'Nationwide',
+                organizer: 'Poultry Farmers Assoc.',
+                progress: 72,
+                description: 'High-quality poultry feed for layers and broilers at wholesale price'
+            }
+        ];
+
+        // Application state
+        let currentUser = null;
+        let currentPage = 'home';
+        let isLoginMode = true;
+
+        // DOM Elements
+        const pages = document.querySelectorAll('.page');
+        const header = document.getElementById('header');
+        const userInfo = document.getElementById('user-info');
+        const userInfoMobile = document.getElementById('user-info-mobile');
+        const usernameDisplay = document.getElementById('username-display');
+        const usernameDisplayMobile = document.getElementById('username-display-mobile');
+        const userAvatar = document.getElementById('user-avatar');
+        const userAvatarMobile = document.getElementById('user-avatar-mobile');
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            checkAuthStatus();
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Render initial data
+            renderProducts();
+            renderGroups();
+            renderGroupPurchases();
+            renderStateFilters();
+            
+            // Add some visual effects
+            addVisualEffects();
+        });
+
+        // Check authentication status
+        function checkAuthStatus() {
+            const userData = localStorage.getItem('bulkgro_user');
+            if (userData) {
+                currentUser = JSON.parse(userData);
+                showHeader();
+                showPage('dashboard');
+                updateUserDisplay();
+            } else {
+                showPage('home');
+            }
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Navigation
+            document.getElementById('get-started-btn').addEventListener('click', function() {
+                showPage('login');
+            });
+
+            document.getElementById('logo').addEventListener('click', function() {
+                if (currentUser) {
+                    showPage('dashboard');
+                } else {
+                    showPage('home');
+                }
+            });
+
+            // Page links
+            document.querySelectorAll('.page-link').forEach(link => {
+                link.addEventListener('click', function() {
+                    const page = this.getAttribute('data-page');
+                    showPage(page);
+                });
+            });
+
+            // Navigation links
+            document.querySelectorAll('.nav-link, .nav-link-mobile').forEach(link => {
+                link.addEventListener('click', function() {
+                    const page = this.getAttribute('data-page');
+                    showPage(page);
+                    // Close mobile menu if open
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                });
+            });
+
+            // Mobile menu
+            document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            });
+
+            // Authentication form
+            document.getElementById('auth-form').addEventListener('submit', handleAuth);
+            document.getElementById('toggle-auth').addEventListener('click', toggleAuthMode);
+
+            // Logout buttons
+            document.getElementById('logout-btn').addEventListener('click', logout);
+            document.getElementById('logout-btn-mobile').addEventListener('click', logout);
+
+            // Product category filters
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    filterProducts(category);
+                    
+                    // Update active state
+                    document.querySelectorAll('.category-btn').forEach(b => {
+                        b.classList.remove('bg-green-600', 'text-white', 'shadow-lg');
+                        b.classList.add('bg-white', 'text-green-700', 'border', 'border-green-300', 'hover:bg-green-50');
+                    });
+                    
+                    this.classList.remove('bg-white', 'text-green-700', 'border', 'border-green-300', 'hover:bg-green-50');
+                    this.classList.add('bg-green-600', 'text-white', 'shadow-lg');
+                });
+            });
+
+            // Group purchase tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tab = this.getAttribute('data-tab');
+                    switchTab(tab);
+                    
+                    // Update active state
+                    document.querySelectorAll('.tab-btn').forEach(b => {
+                        b.classList.remove('border-green-600', 'text-green-600');
+                        b.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700');
+                    });
+                    
+                    this.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700');
+                    this.classList.add('border-green-600', 'text-green-600');
+                });
+            });
+
+            // Feedback form
+            document.getElementById('feedback-form').addEventListener('submit', handleFeedback);
+            document.getElementById('feedback-rating').addEventListener('input', function() {
+                document.getElementById('rating-value').textContent = this.value;
+            });
+
+            // Modal
+            document.getElementById('close-modal').addEventListener('click', function() {
+                document.getElementById('success-modal').classList.add('hidden');
+            });
+
+            // Group search
+            document.getElementById('group-search').addEventListener('input', function() {
+                filterGroups(this.value);
+            });
+        }
+
+        // Show a specific page
+        function showPage(pageName) {
+            // Hide all pages
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show the requested page
+            document.getElementById(pageName).classList.add('active');
+            currentPage = pageName;
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Show/hide header based on authentication
+        function showHeader() {
+            if (currentUser) {
+                header.classList.remove('hidden');
+            } else {
+                header.classList.add('hidden');
+            }
+        }
+
+        // Update user display information
+        function updateUserDisplay() {
+            if (currentUser) {
+                const username = currentUser.username || currentUser.email.split('@')[0];
+                const initial = username.charAt(0).toUpperCase();
+                
+                usernameDisplay.textContent = `Welcome, ${username}!`;
+                usernameDisplayMobile.textContent = `Welcome, ${username}!`;
+                userAvatar.textContent = initial;
+                userAvatarMobile.textContent = initial;
+            }
+        }
+
+        // Toggle between login and signup modes
+        function toggleAuthMode() {
+            isLoginMode = !isLoginMode;
+            
+            const title = document.getElementById('login-title');
+            const submitBtn = document.getElementById('auth-submit');
+            const toggleBtn = document.getElementById('toggle-auth');
+            const usernameField = document.getElementById('username-field');
+            const confirmPasswordField = document.getElementById('confirm-password-field');
+            
+            if (isLoginMode) {
+                title.textContent = 'Welcome Back to Africa\'s Agricultural Marketplace';
+                submitBtn.textContent = 'Sign In';
+                toggleBtn.textContent = "Don't have an account? Sign Up";
+                usernameField.classList.add('hidden');
+                confirmPasswordField.classList.add('hidden');
+            } else {
+                title.textContent = 'Join Africa\'s Agricultural Marketplace';
+                submitBtn.textContent = 'Sign Up';
+                toggleBtn.textContent = 'Already have an account? Sign In';
+                usernameField.classList.remove('hidden');
+                confirmPasswordField.classList.remove('hidden');
+            }
+        }
+
+        // Handle authentication (login/signup)
+        function handleAuth(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const username = document.getElementById('username').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            // Basic validation
+            if (!isLoginMode) {
+                if (!username) {
+                    showModal('Please enter a username');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    showModal('Passwords do not match');
+                    return;
+                }
+            }
+            
+            // Simulate authentication (in a real app, this would be an API call)
+            setTimeout(() => {
+                currentUser = {
+                    email,
+                    username: username || email.split('@')[0]
+                };
+                
+                // Save to localStorage
+                localStorage.setItem('bulkgro_user', JSON.stringify(currentUser));
+                
+                // Update UI
+                showHeader();
+                updateUserDisplay();
+                showPage('dashboard');
+                showModal(isLoginMode ? 'Login successful!' : 'Account created successfully!');
+            }, 1000);
+        }
+
+        // Handle logout
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('bulkgro_user');
+            showPage('home');
+            header.classList.add('hidden');
+        }
+
+        // Handle feedback submission
+        function handleFeedback(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('feedback-name').value;
+            const email = document.getElementById('feedback-email').value;
+            const category = document.getElementById('feedback-category').value;
+            const rating = document.getElementById('feedback-rating').value;
+            const message = document.getElementById('feedback-message').value;
+            
+            // Simulate submission
+            setTimeout(() => {
+                showModal('Thank you for your feedback! We appreciate your input.');
+                document.getElementById('feedback-form').reset();
+                document.getElementById('rating-value').textContent = '5';
+            }, 1000);
+        }
+
+        // Render products
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card bg-white rounded-xl shadow-lg overflow-hidden';
+                productCard.innerHTML = `
+                    <div class="p-6">
+                        <div class="text-6xl text-center mb-4 floating" style="animation-duration: ${3 + Math.random() * 3}s;">${product.image}</div>
+                        <h3 class="text-xl font-bold text-green-900 mb-2">${product.name}</h3>
+                        <p class="text-green-600 font-semibold mb-2">${product.price}</p>
+                        <p class="text-gray-600 mb-2 text-sm">${product.description}</p>
+                        <p class="text-gray-500 text-sm mb-4 flex items-center">
+                            <i class="fas fa-map-marker-alt mr-1"></i> ${product.location}
+                        </p>
+                        <button class="w-full bg-green-600 text-white py-2 rounded-lg font-medium hover:bg-green-700 transition-colors duration-300 shadow-md flex items-center justify-center">
+                            <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(productCard);
+            });
+        }
+
+        // Filter products by category
+        function filterProducts(category) {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+            
+            const filteredProducts = category === 'all' 
+                ? products 
+                : products.filter(product => product.category === category);
+            
+            filteredProducts.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card bg-white rounded-xl shadow-lg overflow-hidden';
+                productCard.innerHTML = `
+                    <div class="p-6">
+                        <div class="text-6xl text-center mb-4 floating" style="animation-duration: ${3 + Math.random() * 3}s;">${product.image}</div>
+                        <h3 class="text-xl font-bold text-green-900 mb-2">${product.name}</h3>
+                        <p class="text-green-600 font-semibold mb-2">${product.price}</p>
+                        <p class="text-gray-600 mb-2 text-sm">${product.description}</p>
+                        <p class="text-gray-500 text-sm mb-4 flex items-center">
+                            <i class="fas fa-map-marker-alt mr-1"></i> ${product.location}
+                        </p>
+                        <button class="w-full bg-green-600 text-white py-2 rounded-lg font-medium hover:bg-green-700 transition-colors duration-300 shadow-md flex items-center justify-center">
+                            <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(productCard);
+            });
+        }
+
+        // Render market groups
+        function renderGroups() {
+            const grid = document.getElementById('groups-grid');
+            grid.innerHTML = '';
+            
+            marketGroups.forEach(group => {
+                const groupCard = document.createElement('div');
+                groupCard.className = 'bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1';
+                groupCard.innerHTML = `
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="text-4xl floating" style="animation-duration: ${4 + Math.random() * 4}s;">${group.image}</div>
+                            <span class="bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full shadow-sm">
+                                ${group.location}
+                            </span>
+                        </div>
+                        
+                        <h3 class="text-xl font-bold text-green-900 mb-2">${group.name}</h3>
+                        <p class="text-gray-600 mb-4 text-sm">${group.description}</p>
+                        
+                        <div class="flex justify-between text-sm text-gray-600 mb-4">
+                            <span class="flex items-center"><i class="fas fa-users mr-1"></i> ${group.members} members</span>
+                            <span class="flex items-center"><i class="fas fa-boxes mr-1"></i> ${group.products} products</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs text-gray-500">Est. ${group.established}</span>
+                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">${group.specialty}</span>
+                        </div>
+                        
+                        <button class="w-full bg-green-600 text-white py-2 rounded-lg font-medium hover:bg-green-700 transition-colors duration-300 flex items-center justify-center shadow-md">
+                            <i class="fas fa-user-plus mr-2"></i> Join Group
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(groupCard);
+            });
+        }
+
+        // Render state filters
+        function renderStateFilters() {
+            const container = document.getElementById('state-filters');
+            const states = [...new Set(marketGroups.map(group => group.location))];
+            
+            // Add "All" option
+            const allButton = document.createElement('button');
+            allButton.className = 'state-filter px-4 py-2 rounded-full font-medium transition-all duration-300 bg-green-600 text-white shadow-lg';
+            allButton.setAttribute('data-state', 'all');
+            allButton.innerHTML = '<i class="fas fa-globe-africa mr-2"></i>All States';
+            allButton.addEventListener('click', function() {
+                filterGroupsByState('all');
+                updateStateFilterButtons('all');
+            });
+            container.appendChild(allButton);
+            
+            // Add state buttons
+            states.forEach(state => {
+                const button = document.createElement('button');
+                button.className = 'state-filter px-4 py-2 rounded-full font-medium transition-all duration-300 bg-green-100 text-green-700 hover:bg-green-200';
+                button.setAttribute('data-state', state);
+                button.textContent = state;
+                button.addEventListener('click', function() {
+                    filterGroupsByState(state);
+                    updateStateFilterButtons(state);
+                });
+                container.appendChild(button);
+            });
+        }
+
+        // Filter groups by state
+        function filterGroupsByState(state) {
+            const grid = document.getElementById('groups-grid');
+            grid.innerHTML = '';
+            
+            const filteredGroups = state === 'all' 
+                ? marketGroups 
+                : marketGroups.filter(group => group.location === state);
+            
+            filteredGroups.forEach(group => {
+                const groupCard = document.createElement('div');
+                groupCard.className = 'bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1';
+                groupCard.innerHTML = `
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="text-4xl floating" style="animation-duration: ${4 + Math.random() * 4}s;">${group.image}</div>
+                            <span class="bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full shadow-sm">
+                                ${group.location}
+                            </span>
+                        </div>
+                        
+                        <h3 class="text-xl font-bold text-green-900 mb-2">${group.name}</h3>
+                        <p class="text-gray-600 mb-4 text-sm">${group.description}</p>
+                        
+                        <div class="flex justify-between text-sm text-gray-600 mb-4">
+                            <span class="flex items-center"><i class="fas fa-users mr-1"></i> ${group.members} members</span>
+                            <span class="flex items-center"><i class="fas fa-boxes mr-1"></i> ${group.products} products</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs text-gray-500">Est. ${group.established}</span>
+                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">${group.specialty}</span>
+                        </div>
+                        
+                        <button class="w-full bg-green-600 text-white py-2 rounded-lg font-medium hover:bg-green-700 transition-colors duration-300 flex items-center justify-center shadow-md">
+                            <i class="fas fa-user-plus mr-2"></i> Join Group
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(groupCard);
+            });
+        }
+
+        // Update state filter buttons
+        function updateStateFilterButtons(activeState) {
+            document.querySelectorAll('.state-filter').forEach(button => {
+                if (button.getAttribute('data-state') === activeState) {
+                    button.classList.remove('bg-green-100', 'text-green-700', 'hover:bg-green-200');
+                    button.classList.add('bg-green-600', 'text-white', 'shadow-lg');
+                } else {
+                    button.classList.remove('bg-green-600', 'text-white', 'shadow-lg');
+                    button.classList.add('bg-green-100', 'text-green-700', 'hover:bg-green-200');
+                }
+            });
+        }
+
+        // Filter groups by search term
+        function filterGroups(searchTerm) {
+            const grid = document.getElementById('groups-grid');
+            grid.innerHTML = '';
+            
+            const filteredGroups = marketGroups.filter(group => 
+                group.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                group.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                group.specialty.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            
+            if (filteredGroups.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-3 text-center py-12">
+                        <div class="text-6xl mb-4">🔍</div>
+                        <h3 class="text-xl font-bold text-green-900 mb-2">No groups found</h3>
+                        <p class="text-gray-600">Try adjusting your search filters</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredGroups.forEach(group => {
+                const groupCard = document.createElement('div');
+                groupCard.className = 'bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1';
+                groupCard.innerHTML = `
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="text-4xl floating" style="animation-duration: ${4 + Math.random() * 4}s;">${group.image}</div>
+                            <span class="bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full shadow-sm">
+                                ${group.location}
+                            </span>
+                        </div>
+                        
+                        <h3 class="text-xl font-bold text-green-900 mb-2">${group.name}</h3>
+                        <p class="text-gray-600 mb-4 text-sm">${group.description}</p>
+                        
+                        <div class="flex justify-between text-sm text-gray-600 mb-4">
+                            <span class="flex items-center"><i class="fas fa-users mr-1"></i> ${group.members} members</span>
+                            <span class="flex items-center"><i class="fas fa-boxes mr-1"></i> ${group.products} products</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs text-gray-500">Est. ${group.established}</span>
+                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">${group.specialty}</span>
+                        </div>
+                        
+                        <button class="w-full bg-green-600 text-white py-2 rounded-lg font-medium hover:bg-green-700 transition-colors duration-300 flex items-center justify-center shadow-md">
+                            <i class="fas fa-user-plus mr-2"></i> Join Group
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(groupCard);
+            });
+        }
+
+        // Render group purchases
+        function renderGroupPurchases() {
+            const grid = document.getElementById('purchases-grid');
+            grid.innerHTML = '';
+            
+            groupPurchases.forEach(purchase => {
+                const purchaseCard = document.createElement('div');
+                purchaseCard.className = 'bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300';
+                purchaseCard.innerHTML = `
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="text-4xl floating" style="animation-duration: ${3 + Math.random() * 3}s;">${purchase.image}</div>
+                            <span class="px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800 shadow-sm">
+                                Active
+                            </span>
+                        </div>
+                        
+                        <h3 class="text-xl font-bold text-green-900 mb-2">${purchase.product}</h3>
+                        <p class="text-gray-600 text-sm mb-4">${purchase.description}</p>
+                        <p class="text-gray-600 text-sm mb-4 flex items-center">
+                            <i class="fas fa-user-tie mr-2"></i> Organized by: ${purchase.organizer}
+                        </p>
+                        
+                        <!-- Price Comparison -->
+                        <div class="bg-green-50 rounded-lg p-4 mb-4 shadow-inner">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-gray-600">Individual Price:</span>
+                                <span class="line-through text-red-500 font-semibold">${purchase.originalPrice}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Group Price:</span>
+                                <span class="text-green-600 font-bold text-lg">${purchase.groupPrice}</span>
+                            </div>
+                            <div class="flex justify-between items-center mt-2">
+                                <span class="text-gray-600">You Save:</span>
+                                <span class="text-yellow-600 font-bold">${purchase.savings}</span>
+                            </div>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm text-gray-600 mb-1">
+                                <span>Members: ${purchase.currentMembers}/${purchase.membersNeeded}</span>
+                                <span>${purchase.progress}%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 shadow-inner">
+                                <div class="bg-green-600 h-2 rounded-full progress-bar" style="width: ${purchase.progress}%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Details -->
+                        <div class="flex justify-between text-sm text-gray-600 mb-4">
+                            <span class="flex items-center"><i class="fas fa-map-marker-alt mr-1"></i> ${purchase.location}</span>
+                            <span class="flex items-center"><i class="fas fa-clock mr-1"></i> ${purchase.deadline}</span>
+                        </div>
+
+                        <button class="join-purchase w-full bg-yellow-400 text-green-900 py-3 rounded-lg font-bold hover:bg-yellow-500 hover:scale-105 transition-all duration-300 shadow-md btn-glow" data-id="${purchase.id}">
+                            <i class="fas fa-handshake mr-2"></i> Join Group Purchase
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(purchaseCard);
+            });
+            
+            // Add event listeners to join buttons
+            document.querySelectorAll('.join-purchase').forEach(button => {
+                button.addEventListener('click', function() {
+                    const purchaseId = this.getAttribute('data-id');
+                    const purchase = groupPurchases.find(p => p.id == purchaseId);
+                    showModal(`You've joined the group purchase for ${purchase.product}!`);
+                });
+            });
+        }
+
+        // Switch between active and completed tabs
+        function switchTab(tab) {
+            const grid = document.getElementById('purchases-grid');
+            grid.innerHTML = '';
+            
+            if (tab === 'active') {
+                renderGroupPurchases();
+            } else {
+                // Show completed purchases (simulated data)
+                const completedPurchases = groupPurchases.slice(0, 2).map(purchase => ({
+                    ...purchase,
+                    status: 'completed',
+                    currentMembers: purchase.membersNeeded
+                }));
+                
+                completedPurchases.forEach(purchase => {
+                    const purchaseCard = document.createElement('div');
+                    purchaseCard.className = 'bg-white rounded-xl shadow-lg overflow-hidden';
+                    purchaseCard.innerHTML = `
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="text-4xl floating" style="animation-duration: ${3 + Math.random() * 3}s;">${purchase.image}</div>
+                                <span class="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 shadow-sm">
+                                    Completed
+                                </span>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold text-green-900 mb-2">${purchase.product}</h3>
+                            <p class="text-gray-600 text-sm mb-4">${purchase.description}</p>
+                            
+                            <!-- Price Comparison -->
+                            <div class="bg-green-50 rounded-lg p-4 mb-4 shadow-inner">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">Group Price:</span>
+                                    <span class="text-green-600 font-bold text-lg">${purchase.groupPrice}</span>
+                                </div>
+                            </div>
+
+                            <!-- Progress Bar -->
+                            <div class="mb-4">
+                                <div class="flex justify-between text-sm text-gray-600 mb-1">
+                                    <span>Members: ${purchase.currentMembers}/${purchase.membersNeeded}</span>
+                                    <span>100%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2 shadow-inner">
+                                    <div class="bg-green-600 h-2 rounded-full" style="width: 100%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Details -->
+                            <div class="flex justify-between text-sm text-gray-600 mb-4">
+                                <span class="flex items-center"><i class="fas fa-map-marker-alt mr-1"></i> ${purchase.location}</span>
+                                <span class="flex items-center"><i class="fas fa-clock mr-1"></i> ${purchase.deadline}</span>
+                            </div>
+
+                            <button class="w-full bg-gray-300 text-gray-500 py-3 rounded-lg font-bold cursor-not-allowed shadow-sm">
+                                <i class="fas fa-check-circle mr-2"></i> Purchase Completed
+                            </button>
+                        </div>
+                    `;
+                    grid.appendChild(purchaseCard);
+                });
+            }
+        }
+
+        // Show modal with message
+        function showModal(message) {
+            document.getElementById('success-message').textContent = message;
+            document.getElementById('success-modal').classList.remove('hidden');
+        }
+
+        // Add visual effects
+        function addVisualEffects() {
+            // Add floating animation to various elements
+            const floatingElements = document.querySelectorAll('.floating');
+            floatingElements.forEach((el, index) => {
+                el.style.animationDuration = `${3 + Math.random() * 3}s`;
+                el.style.animationDelay = `${Math.random() * 2}s`;
+            });
+            
+            // Add hover effects to cards
+            const cards = document.querySelectorAll('.product-card, .page-link, .feature-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Add glow effect to buttons on hover
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    if (this.classList.contains('btn-glow')) {
+                        this.style.boxShadow = '0 0 20px rgba(234, 179, 8, 0.8)';
+                    }
+                });
+                button.addEventListener('mouseleave', function() {
+                    if (this.classList.contains('btn-glow')) {
+                        this.style.boxShadow = '0 0 10px rgba(234, 179, 8, 0.5)';
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
